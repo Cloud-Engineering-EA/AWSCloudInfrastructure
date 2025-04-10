@@ -17,7 +17,7 @@ provider "aws" {
   alias  = "east-provider"
 }
 
-# Configure AWS Provider for AWS East 
+# Configure AWS Provider for AWS West
 provider "aws" {
   region = "us-west-1"
   alias  = "west-provider"

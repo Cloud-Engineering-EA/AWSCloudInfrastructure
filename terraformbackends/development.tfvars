@@ -1,2 +1,2 @@
-bucket = "terraformstatepool"
-key = "development/terraform.tfstate"
+bucket = "terraformstatecoreinfra"
+key    = "development/terraform.tfstate"
