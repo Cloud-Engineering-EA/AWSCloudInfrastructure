@@ -55,7 +55,7 @@ jobs:
             cancel-in-progress: false
         runs-on: ubuntu-latest
         environment: development
-        if: github.base_ref == 'development' && github.event_name == 'push'
+        if: github.base_ref == 'main' && github.event_name == 'push'
         steps:
             - name: checkout
               uses: actions/checkout@v4
@@ -73,6 +73,31 @@ jobs:
                 config_directory: terraform
                 terraform_action: apply
                 environment: development
+    staging-plan:
+        concurrency:
+            group: ${{ github.base_ref }}-staging_environment
+            cancel-in-progress: false
+        runs-on: ubuntu-latest
+        environment: staging
+        if: github.base_ref == 'main' && github.event_name == 'pull_request'
+        steps:
+            - name: checkout
+              uses: actions/checkout@v4
+            
+            - name: Configure AWS credentials from AWS account
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                aws-region: ${{ vars.AWS_REGION }}
+                role-to-assume: ${{ secrets.AWS_ROLE }}
+                role-session-name: ${{ env.ROLE_SESSION }}
+
+            - name: staging-plan
+              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.2
+              with:
+                config_directory: terraform
+                terraform_action: plan
+                environment: staging
+
 
 
 
