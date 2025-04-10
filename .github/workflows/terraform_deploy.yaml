@@ -47,7 +47,7 @@ jobs:
                 environment: development
     development-apply:
         concurrency:
-            group: ${{ github.base_ref }}-development_environment
+            group: ${{ github.base_ref }}-development
             cancel-in-progress: false
         runs-on: ubuntu-latest
         environment: development
