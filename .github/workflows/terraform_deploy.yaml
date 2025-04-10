@@ -1,0 +1,81 @@
+name: "Terraform Action Workflow"
+on:
+    push:
+        branches: 
+            - 'production'
+            - 'development'
+            - 'staging'
+    pull_request:
+        branches:
+            - 'production'
+            - 'development'
+            - 'staging'
+concurrency:
+    group: ${{ github.head_ref || github.ref }}
+
+permissions:
+    id-token: write
+    contents: read
+    pull-requests: write
+
+env:
+    TF_LOG: INFO
+    #AWS_REGION: ${{ vars.AWS_REGION }}
+    #AWS_ROLE: ${{ secrets.AWS_ROLE }}
+    ROLE_SESSION: Github-OIDC-TERRAFORM-development
+
+jobs:
+    development-plan:
+        concurrency:
+            group: ${{ github.base_ref }}-development_environment
+            cancel-in-progress: false
+        runs-on: ubuntu-latest
+        environment: development
+        if: github.base_ref == 'development' && github.event_name == 'pull_request'
+        steps:
+            - name: checkout
+              uses: actions/checkout@v4
+            
+            - name: Configure AWS credentials from AWS account
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                aws-region: ${{ vars.AWS_REGION }}
+                role-to-assume: ${{ secrets.AWS_ROLE }}
+                role-session-name: ${{ env.ROLE_SESSION }}
+
+            - name: development-plan
+              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.0
+              with:
+                config_directory: terraform
+                terraform_action: plan
+                environment: development
+    development-apply:
+        concurrency:
+            group: ${{ github.base_ref }}-development_environment
+            cancel-in-progress: false
+        runs-on: ubuntu-latest
+        environment: development
+        if: github.base_ref == 'development' && github.event_name == 'push'
+        steps:
+            - name: checkout
+              uses: actions/checkout@v4
+            
+            - name: Configure AWS credentials from AWS account
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                aws-region: ${{ vars.AWS_REGION }}
+                role-to-assume: ${{ secrets.AWS_ROLE }}
+                role-session-name: ${{ env.ROLE_SESSION }}
+
+            - name: development-apply
+              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.0
+              with:
+                config_directory: terraform
+                terraform_action: apply
+                environment: development
+
+
+
+
+
+
