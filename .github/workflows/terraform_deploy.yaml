@@ -27,7 +27,7 @@ jobs:
             cancel-in-progress: false
         runs-on: ubuntu-latest
         environment: development
-        if: github.base_ref == 'main' && github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request'
         steps:
             - name: checkout
               uses: actions/checkout@v4
@@ -67,7 +67,7 @@ jobs:
               uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.2
               with:
                 config_directory: terraform
-                terraform_action: apply
+                terraform_action: destroy
                 environment: development
     staging-plan:
         concurrency:
