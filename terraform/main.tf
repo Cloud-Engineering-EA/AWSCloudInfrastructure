@@ -4,7 +4,7 @@ resource "aws_ssm_parameter" "name" {
   value    = "action test"
   provider = aws.east-provider
   tags = {
-    Name        = "test"
+    Name        = "testssmparameter"
     Environment = "East"
   }
 }
