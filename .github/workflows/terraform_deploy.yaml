@@ -68,7 +68,7 @@ jobs:
                 role-session-name: ${{ env.ROLE_SESSION }}
 
             - name: development-apply
-              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.0
+              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.1
               with:
                 config_directory: terraform
                 terraform_action: apply
