@@ -40,7 +40,7 @@ jobs:
                 role-session-name: ${{ env.ROLE_SESSION }}
 
             - name: development-plan
-              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.5
+              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.6
               with:
                 config_directory: terraform
                 terraform_action: plan
@@ -64,7 +64,7 @@ jobs:
                 role-session-name: ${{ env.ROLE_SESSION }}
 
             - name: development-apply
-              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.5
+              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.6
               with:
                 config_directory: terraform
                 terraform_action: apply
@@ -88,7 +88,7 @@ jobs:
                 role-session-name: ${{ env.ROLE_SESSION }}
 
             - name: staging-plan
-              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.5
+              uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.6
               with:
                 config_directory: terraform
                 terraform_action: plan
