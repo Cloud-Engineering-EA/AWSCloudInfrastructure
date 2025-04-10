@@ -1,4 +1,4 @@
-resource "aws_ssm_parameter" "name" {
+resource "aws_ssm_parameter" "eastparameter" {
   name     = "test"
   type     = "String"
   value    = "action test east"
@@ -9,7 +9,7 @@ resource "aws_ssm_parameter" "name" {
   }
 }
 
-resource "aws_ssm_parameter" "name" {
+resource "aws_ssm_parameter" "westparameter" {
   name     = "test"
   type     = "String"
   value    = "action test west"
