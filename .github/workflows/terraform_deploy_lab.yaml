@@ -1,4 +1,4 @@
-name: "Terraform Action Workflow"
+name: "Terraform Action Lab Provision Workflow"
 on:
     push:
         branches: 
@@ -36,8 +36,10 @@ jobs:
               uses: aws-actions/configure-aws-credentials@v4
               with:
                 aws-region: ${{ vars.AWS_REGION }}
-                role-to-assume: ${{ secrets.AWS_ROLE }}
-                role-session-name: ${{ env.ROLE_SESSION }}
+                #role-to-assume: ${{ secrets.AWS_ROLE }}
+                #role-session-name: ${{ env.ROLE_SESSION }}
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
             - name: development-plan
               uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.6
@@ -60,14 +62,14 @@ jobs:
               uses: aws-actions/configure-aws-credentials@v4
               with:
                 aws-region: ${{ vars.AWS_REGION }}
-                role-to-assume: ${{ secrets.AWS_ROLE }}
-                role-session-name: ${{ env.ROLE_SESSION }}
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
             - name: development-apply
               uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.6
               with:
                 config_directory: terraform
-                terraform_action: destroy
+                terraform_action: apply
                 environment: development
     staging-plan:
         concurrency:
@@ -84,8 +86,8 @@ jobs:
               uses: aws-actions/configure-aws-credentials@v4
               with:
                 aws-region: ${{ vars.AWS_REGION }}
-                role-to-assume: ${{ secrets.AWS_ROLE }}
-                role-session-name: ${{ env.ROLE_SESSION }}
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
             - name: staging-plan
               uses: Cloud-Engineering-EA/composite-action-terraform-deploy@v1.6
